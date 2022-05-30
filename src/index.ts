@@ -90,7 +90,7 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
       scope: this.scope,
       prompt: this.prompt,
       p: this.userFlowID,
-      response_type: "id_token",
+      "response_type": "id_token",
       blah: "something_here"
     });
   }
