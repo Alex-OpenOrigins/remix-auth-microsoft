@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MicrosoftStrategy = void 0;
 const remix_auth_oauth2_1 = require("remix-auth-oauth2");
 class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
-    constructor({ clientID, clientSecret, callbackURL, scope, prompt, tenant = "common", baseURL = "login.microsoftonline.com", userFlowID, }, verify) {
+    constructor({ clientID, clientSecret, callbackURL, scope, prompt, tenant = "common", baseURL = "login.microsoftonline.com", responseType = "id_token", userFlowID, }, verify) {
         super({
             clientID,
             clientSecret,
@@ -16,13 +16,14 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         this.scope = scope !== null && scope !== void 0 ? scope : "openid profile email";
         this.prompt = prompt !== null && prompt !== void 0 ? prompt : "none";
         this.userFlowID = userFlowID !== null && userFlowID !== void 0 ? userFlowID : "";
+        this.responseType = responseType;
     }
     authorizationParams() {
         return new URLSearchParams({
             scope: this.scope,
             prompt: this.prompt,
             p: this.userFlowID,
-            response_type: 'token'
+            response_type: this.responseType
         });
     }
     async userProfile(accessToken) {
