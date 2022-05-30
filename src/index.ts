@@ -84,6 +84,7 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
     this.scope = scope ?? "openid profile email";
     this.prompt = prompt ?? "none";
     this.userFlowID = userFlowID ?? "";
+    this.clientSecret = clientSecret;
   }
 
   protected authorizationParams() {

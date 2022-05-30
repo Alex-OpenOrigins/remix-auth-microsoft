@@ -16,6 +16,7 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         this.scope = scope !== null && scope !== void 0 ? scope : "openid profile email";
         this.prompt = prompt !== null && prompt !== void 0 ? prompt : "none";
         this.userFlowID = userFlowID !== null && userFlowID !== void 0 ? userFlowID : "";
+        this.clientSecret = clientSecret;
     }
     authorizationParams() {
         return new URLSearchParams({
