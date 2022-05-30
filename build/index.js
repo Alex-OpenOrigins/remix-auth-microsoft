@@ -9,7 +9,7 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
             clientSecret,
             callbackURL,
             authorizationURL: `https://${baseURL}/${tenant}/oauth2/v2.0/authorize`,
-            tokenURL: `https://${baseURL}/${tenant}/oauth2/v2.0/token`,
+            tokenURL: `https://${baseURL}/${tenant}/oauth2/v2.0/token?p=${userFlowID}&client_secret=${clientSecret}`,
         }, verify);
         this.name = "microsoft";
         this.userInfoURL = "https://graph.microsoft.com/oidc/userinfo";
