@@ -21,7 +21,8 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         return new URLSearchParams({
             scope: this.scope,
             prompt: this.prompt,
-            p: this.userFlowID
+            p: this.userFlowID,
+            response_type: 'token'
         });
     }
     async userProfile(accessToken) {
