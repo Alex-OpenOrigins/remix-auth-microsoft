@@ -44,6 +44,5 @@ export declare class MicrosoftStrategy<User> extends OAuth2Strategy<User, Micros
     private userInfoURL;
     constructor({ clientID, clientSecret, callbackURL, scope, prompt, tenant, baseURL, userFlowID, }: MicrosoftStrategyOptions, verify: StrategyVerifyCallback<User, OAuth2StrategyVerifyParams<MicrosoftProfile, MicrosoftExtraParams>>);
     protected authorizationParams(): URLSearchParams;
-    protected tokenParams(): URLSearchParams;
     protected userProfile(accessToken: string): Promise<MicrosoftProfile>;
 }
