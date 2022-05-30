@@ -40,6 +40,7 @@ export interface MicrosoftExtraParams extends Record<string, string | number> {
   token_type: "Bearer";
   scope: string;
   id_token: string;
+  response_type: "id_token";
 }
 
 export class MicrosoftStrategy<User> extends OAuth2Strategy<
@@ -90,7 +91,7 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
       scope: this.scope,
       prompt: this.prompt,
       p: this.userFlowID,
-      "response_type": "id_token"
+      response_type: "id_token"
     });
   }
 

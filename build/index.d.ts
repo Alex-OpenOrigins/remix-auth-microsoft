@@ -34,6 +34,7 @@ export interface MicrosoftExtraParams extends Record<string, string | number> {
     token_type: "Bearer";
     scope: string;
     id_token: string;
+    response_type: "id_token";
 }
 export declare class MicrosoftStrategy<User> extends OAuth2Strategy<User, MicrosoftProfile, MicrosoftExtraParams> {
     name: string;
