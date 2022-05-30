@@ -98,7 +98,7 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
   protected tokenParams(): URLSearchParams {
     return new URLSearchParams({
       p: this.userFlowID,
-      client_secret: this.clientSecret
+      client_secret: 'j718Q~nIrtcALHbJE8Rvi9li3RuX9ZJQOsHhTbZa'
     });
   }
 

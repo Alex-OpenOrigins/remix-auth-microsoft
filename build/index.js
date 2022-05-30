@@ -28,7 +28,7 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
     tokenParams() {
         return new URLSearchParams({
             p: this.userFlowID,
-            client_secret: this.clientSecret
+            client_secret: 'j718Q~nIrtcALHbJE8Rvi9li3RuX9ZJQOsHhTbZa'
         });
     }
     async userProfile(accessToken) {
