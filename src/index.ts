@@ -84,7 +84,7 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
     this.scope = scope ?? "openid profile email";
     this.prompt = prompt ?? "none";
     this.userFlowID = userFlowID ?? "";
-    this.clientSecret = clientSecret;
+    this.clientSecret = clientSecret ?? "";
   }
 
   protected authorizationParams() {
@@ -97,8 +97,8 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
 
   protected tokenParams(): URLSearchParams {
     return new URLSearchParams({
-      client_secret: this.clientSecret,
-      p: this.userFlowID
+      p: this.userFlowID,
+      client_secret: this.clientSecret
     });
   }
 

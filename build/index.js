@@ -16,7 +16,7 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         this.scope = scope !== null && scope !== void 0 ? scope : "openid profile email";
         this.prompt = prompt !== null && prompt !== void 0 ? prompt : "none";
         this.userFlowID = userFlowID !== null && userFlowID !== void 0 ? userFlowID : "";
-        this.clientSecret = clientSecret;
+        this.clientSecret = clientSecret !== null && clientSecret !== void 0 ? clientSecret : "";
     }
     authorizationParams() {
         return new URLSearchParams({
@@ -27,8 +27,8 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
     }
     tokenParams() {
         return new URLSearchParams({
-            client_secret: this.clientSecret,
-            p: this.userFlowID
+            p: this.userFlowID,
+            client_secret: this.clientSecret
         });
     }
     async userProfile(accessToken) {
