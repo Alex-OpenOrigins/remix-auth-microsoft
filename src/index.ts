@@ -75,7 +75,7 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
         clientID,
         clientSecret,
         callbackURL,
-        authorizationURL: `https://${baseURL}/${tenant}/oauth2/v2.0/authorize?response_type=id_token`,
+        authorizationURL: `https://${baseURL}/${tenant}/oauth2/v2.0/authorize`,
         tokenURL: `https://${baseURL}/${tenant}/oauth2/v2.0/token`,
       },
       verify
@@ -89,7 +89,9 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
     return new URLSearchParams({
       scope: this.scope,
       prompt: this.prompt,
-      p: this.userFlowID
+      p: this.userFlowID,
+      response_type: "id_token",
+      blah: "something_here"
     });
   }
 
