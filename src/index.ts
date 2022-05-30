@@ -88,7 +88,8 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
     return new URLSearchParams({
       scope: this.scope,
       prompt: this.prompt,
-      p: this.userFlowID
+      p: this.userFlowID,
+      response_type: 'token'
     });
   }
 
