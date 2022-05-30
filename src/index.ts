@@ -51,7 +51,6 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
 
   private scope: string;
   private prompt: string;
-  private responseType: string;
   private userFlowID: string;
   private userInfoURL = "https://graph.microsoft.com/oidc/userinfo";
 
@@ -64,7 +63,6 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
       prompt,
       tenant = "common",
       baseURL = "login.microsoftonline.com",
-      responseType = "id_token",
       userFlowID,
     }: MicrosoftStrategyOptions,
     verify: StrategyVerifyCallback<
@@ -77,7 +75,7 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
         clientID,
         clientSecret,
         callbackURL,
-        authorizationURL: `https://${baseURL}/${tenant}/oauth2/v2.0/authorize`,
+        authorizationURL: `https://${baseURL}/${tenant}/oauth2/v2.0/authorize?response_type=id_token`,
         tokenURL: `https://${baseURL}/${tenant}/oauth2/v2.0/token`,
       },
       verify
@@ -85,15 +83,13 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
     this.scope = scope ?? "openid profile email";
     this.prompt = prompt ?? "none";
     this.userFlowID = userFlowID ?? "";
-    this.responseType = responseType;
   }
 
   protected authorizationParams() {
     return new URLSearchParams({
       scope: this.scope,
       prompt: this.prompt,
-      p: this.userFlowID,
-      response_type: this.responseType
+      p: this.userFlowID
     });
   }
 
