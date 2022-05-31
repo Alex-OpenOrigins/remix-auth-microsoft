@@ -52,7 +52,7 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
   private scope: string;
   private prompt: string;
   private userFlowID: string;
-  private userInfoURL = "https://graph.microsoft.com/oidc/userinfo";
+  private userInfoURL: string;
 
   constructor(
     {
@@ -83,6 +83,7 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
     this.scope = scope ?? "openid profile email";
     this.prompt = prompt ?? "none";
     this.userFlowID = userFlowID ?? "";
+    this.userInfoURL = `https://${baseURL}/${tenant}/${userFlowID}/openid/v2.0/userinfo`;
   }
 
   protected authorizationParams() {
