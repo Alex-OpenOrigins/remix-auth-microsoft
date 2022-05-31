@@ -22,11 +22,11 @@ export interface MicrosoftProfile extends OAuth2Profile {
         value: string;
     }];
     _json: {
-        sub: string;
-        name: string;
-        family_name: string;
-        given_name: string;
-        email: string;
+        objectId: string;
+        displayName: string;
+        surname: string;
+        givenName: string;
+        'signInNames.emailAddress': string;
     };
 }
 export interface MicrosoftExtraParams extends Record<string, string | number> {

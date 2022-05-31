@@ -41,13 +41,13 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         let data = await response.json();
         let profile = {
             provider: "microsoft",
-            displayName: data.name,
-            id: data.sub,
+            displayName: data.displayName,
+            id: data.objectId,
             name: {
-                familyName: data.family_name,
-                givenName: data.given_name,
+                familyName: data.surname,
+                givenName: data.givenName,
             },
-            emails: [{ value: data.email }],
+            emails: [{ value: data["signInNames.emailAddress"] }],
             _json: data,
         };
         return profile;

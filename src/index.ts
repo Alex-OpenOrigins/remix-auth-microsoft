@@ -27,11 +27,11 @@ export interface MicrosoftProfile extends OAuth2Profile {
   };
   emails: [{ value: string }];
   _json: {
-    sub: string;
-    name: string;
-    family_name: string;
-    given_name: string;
-    email: string;
+    objectId: string;
+    displayName: string;
+    surname: string;
+    givenName: string;
+    'signInNames.emailAddress': string;
   };
 }
 
@@ -120,13 +120,13 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
 
     let profile: MicrosoftProfile = {
       provider: "microsoft",
-      displayName: data.name,
-      id: data.sub,
+      displayName: data.displayName,
+      id: data.objectId,
       name: {
-        familyName: data.family_name,
-        givenName: data.given_name,
+        familyName: data.surname,
+        givenName: data.givenName,
       },
-      emails: [{ value: data.email }],
+      emails: [{ value: data["signInNames.emailAddress"] }],
       _json: data,
     };
 
