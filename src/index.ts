@@ -1,4 +1,4 @@
-import { StrategyVerifyCallback } from "remix-auth";
+import { StrategyVerifyCallback, AuthorizationError } from "remix-auth";
 
 import {
   OAuth2Profile,
@@ -36,11 +36,10 @@ export interface MicrosoftProfile extends OAuth2Profile {
 }
 
 export interface MicrosoftExtraParams extends Record<string, string | number> {
-  expires_in: 3599;
-  token_type: "Bearer";
-  scope: string;
-  id_token: string;
-  response_type: "id_token";
+  //expires_in: 3599;
+  token_type: string;
+  //scope: string;
+  //id_token: string;
 }
 
 export class MicrosoftStrategy<User> extends OAuth2Strategy<
@@ -93,6 +92,26 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
       p: this.userFlowID
     });
   }
+
+  protected async getAccessToken(response: Response): Promise<{
+		accessToken: string;
+		refreshToken: string;
+		extraParams: MicrosoftExtraParams;
+	}> {
+		const data = await response.text();
+
+		const accessToken = new URLSearchParams(data).get('id_token');
+		if (!accessToken) throw new AuthorizationError('Missing access token.');
+
+		const token_type = new URLSearchParams(data).get('token_type');
+		if (!token_type) throw new AuthorizationError('Missing token type.');
+
+		return {
+			accessToken,
+			refreshToken: '',
+			extraParams: { token_type },
+		} as const;
+	}
 
   protected async userProfile(accessToken: string): Promise<MicrosoftProfile> {
     let response = await fetch(this.userInfoURL, {

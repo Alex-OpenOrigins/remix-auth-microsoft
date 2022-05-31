@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MicrosoftStrategy = void 0;
+const remix_auth_1 = require("remix-auth");
 const remix_auth_oauth2_1 = require("remix-auth-oauth2");
 class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
     constructor({ clientID, clientSecret, callbackURL, scope, prompt, tenant = "common", baseURL = "login.microsoftonline.com", userFlowID, }, verify) {
@@ -23,6 +24,20 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
             prompt: this.prompt,
             p: this.userFlowID
         });
+    }
+    async getAccessToken(response) {
+        const data = await response.text();
+        const accessToken = new URLSearchParams(data).get('id_token');
+        if (!accessToken)
+            throw new remix_auth_1.AuthorizationError('Missing access token.');
+        const token_type = new URLSearchParams(data).get('token_type');
+        if (!token_type)
+            throw new remix_auth_1.AuthorizationError('Missing token type.');
+        return {
+            accessToken,
+            refreshToken: '',
+            extraParams: { token_type },
+        };
     }
     async userProfile(accessToken) {
         let response = await fetch(this.userInfoURL, {

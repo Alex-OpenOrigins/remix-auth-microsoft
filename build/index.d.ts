@@ -30,11 +30,7 @@ export interface MicrosoftProfile extends OAuth2Profile {
     };
 }
 export interface MicrosoftExtraParams extends Record<string, string | number> {
-    expires_in: 3599;
-    token_type: "Bearer";
-    scope: string;
-    id_token: string;
-    response_type: "id_token";
+    token_type: string;
 }
 export declare class MicrosoftStrategy<User> extends OAuth2Strategy<User, MicrosoftProfile, MicrosoftExtraParams> {
     name: string;
@@ -44,5 +40,10 @@ export declare class MicrosoftStrategy<User> extends OAuth2Strategy<User, Micros
     private userInfoURL;
     constructor({ clientID, clientSecret, callbackURL, scope, prompt, tenant, baseURL, userFlowID, }: MicrosoftStrategyOptions, verify: StrategyVerifyCallback<User, OAuth2StrategyVerifyParams<MicrosoftProfile, MicrosoftExtraParams>>);
     protected authorizationParams(): URLSearchParams;
+    protected getAccessToken(response: Response): Promise<{
+        accessToken: string;
+        refreshToken: string;
+        extraParams: MicrosoftExtraParams;
+    }>;
     protected userProfile(accessToken: string): Promise<MicrosoftProfile>;
 }
