@@ -29,7 +29,7 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         const data = await response.text();
         const accessToken = new URLSearchParams(data).get('access_token');
         if (!accessToken)
-            throw new remix_auth_1.AuthorizationError('Missing access token.');
+            throw new remix_auth_1.AuthorizationError(`Missing access token. ${data}`);
         const token_type = new URLSearchParams(data).get('token_type');
         if (!token_type)
             throw new remix_auth_1.AuthorizationError('Missing token type.');

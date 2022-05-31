@@ -101,7 +101,7 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
 		const data = await response.text();
 
 		const accessToken = new URLSearchParams(data).get('access_token');
-		if (!accessToken) throw new AuthorizationError('Missing access token.');
+		if (!accessToken) throw new AuthorizationError(`Missing access token. ${data}`);
 
 		const token_type = new URLSearchParams(data).get('token_type');
 		if (!token_type) throw new AuthorizationError('Missing token type.');
