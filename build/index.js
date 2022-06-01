@@ -35,8 +35,8 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         let data = parseJwt(extraParams.id_token);
         let profile = {
             provider: "microsoft",
-            displayName: data.username || data.name,
-            username: data.username,
+            displayName: data.name,
+            username: data.signinname,
             id: data.oid,
             emails: data.emails,
             _json: data,

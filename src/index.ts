@@ -105,8 +105,8 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
 
     let profile: MicrosoftProfile = {
       provider: "microsoft",
-      displayName: data.username || data.name,
-      username: data.username,
+      displayName: data.name,
+      username: data.signinname,
       id: data.oid,
       emails: data.emails,
       _json: data,
