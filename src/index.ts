@@ -20,6 +20,7 @@ export interface MicrosoftStrategyOptions {
 
 export interface MicrosoftProfile extends OAuth2Profile {
   id: string;
+  accessToken: string;
   displayName: string;
   username: string,
   emails: [{ value: string }];
@@ -105,6 +106,7 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
 
     let profile: MicrosoftProfile = {
       provider: "microsoft",
+      accessToken: accessToken,
       displayName: data.name,
       username: data.signinname,
       id: data.oid,
