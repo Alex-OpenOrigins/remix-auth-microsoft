@@ -14,14 +14,10 @@ export interface MicrosoftStrategyOptions {
 export interface MicrosoftProfile extends OAuth2Profile {
     id: string;
     displayName: string;
-    name: {
-        familyName: string;
-        givenName: string;
-    };
+    username: string;
     emails: [{
         value: string;
     }];
-    id_token: string;
     _json: any;
 }
 export interface MicrosoftExtraParams extends Record<string, string | number> {
@@ -35,7 +31,6 @@ export declare class MicrosoftStrategy<User> extends OAuth2Strategy<User, Micros
     private scope;
     private prompt;
     private userFlowID;
-    private userInfoURL;
     constructor({ clientID, clientSecret, callbackURL, scope, prompt, tenant, baseURL, userFlowID, }: MicrosoftStrategyOptions, verify: StrategyVerifyCallback<User, OAuth2StrategyVerifyParams<MicrosoftProfile, MicrosoftExtraParams>>);
     protected authorizationParams(): URLSearchParams;
     protected getAccessToken(response: Response): Promise<{

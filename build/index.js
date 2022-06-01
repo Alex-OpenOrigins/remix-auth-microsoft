@@ -15,7 +15,6 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         this.scope = scope !== null && scope !== void 0 ? scope : "openid profile email";
         this.prompt = prompt !== null && prompt !== void 0 ? prompt : "none";
         this.userFlowID = userFlowID !== null && userFlowID !== void 0 ? userFlowID : "";
-        this.userInfoURL = `https://${baseURL}/${tenant}/${userFlowID}/openid/v2.0/userinfo`;
     }
     authorizationParams() {
         return new URLSearchParams({
@@ -33,23 +32,13 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         };
     }
     async userProfile(accessToken, extraParams) {
-        /*let response = await fetch(this.userInfoURL, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        let data: MicrosoftProfile["_json"] = await response.json();*/
         let data = parseJwt(extraParams.id_token);
         let profile = {
             provider: "microsoft",
-            displayName: data.name,
+            displayName: data.username || data.name,
+            username: data.username,
             id: data.oid,
-            name: {
-                familyName: data.surname,
-                givenName: data.givenName,
-            },
             emails: data.emails,
-            id_token: extraParams.id_token,
             _json: data,
         };
         return profile;

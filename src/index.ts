@@ -21,20 +21,9 @@ export interface MicrosoftStrategyOptions {
 export interface MicrosoftProfile extends OAuth2Profile {
   id: string;
   displayName: string;
-  name: {
-    familyName: string;
-    givenName: string;
-  };
+  username: string,
   emails: [{ value: string }];
-  id_token: string,
   _json: any
-  /*_json: {
-    objectId: string;
-    displayName: string;
-    surname: string;
-    givenName: string;
-    'signInNames.emailAddress': string;
-  };*/
 }
 
 export interface MicrosoftExtraParams extends Record<string, string | number> {
@@ -54,7 +43,6 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
   private scope: string;
   private prompt: string;
   private userFlowID: string;
-  private userInfoURL: string;
 
   constructor(
     {
@@ -85,7 +73,6 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
     this.scope = scope ?? "openid profile email";
     this.prompt = prompt ?? "none";
     this.userFlowID = userFlowID ?? "";
-    this.userInfoURL = `https://${baseURL}/${tenant}/${userFlowID}/openid/v2.0/userinfo`;
   }
 
   protected authorizationParams() {
@@ -113,25 +100,15 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
 	}
 
   protected async userProfile(accessToken: string, extraParams: MicrosoftExtraParams): Promise<MicrosoftProfile> {
-    /*let response = await fetch(this.userInfoURL, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    let data: MicrosoftProfile["_json"] = await response.json();*/
-
+    
     let data: any = parseJwt(extraParams.id_token);
 
     let profile: MicrosoftProfile = {
       provider: "microsoft",
-      displayName: data.name,
+      displayName: data.username || data.name,
+      username: data.username,
       id: data.oid,
-      name: {
-        familyName: data.surname,
-        givenName: data.givenName,
-      },
       emails: data.emails,
-      id_token: extraParams.id_token,
       _json: data,
     };
 
