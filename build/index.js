@@ -25,30 +25,31 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         });
     }
     async getAccessToken(response) {
-        const { access_token, id_token, token_type } = await response.json();
+        const { access_token, id_token, token_type, scope, expires_in } = await response.json();
         return {
             accessToken: access_token,
             refreshToken: '',
-            extraParams: { token_type },
+            extraParams: { token_type, id_token, scope, expires_in },
         };
     }
-    async userProfile(accessToken) {
-        let response = await fetch(this.userInfoURL, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
+    async userProfile(accessToken, extraParams) {
+        /*let response = await fetch(this.userInfoURL, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         });
-        let data = await response.json();
+        let data: MicrosoftProfile["_json"] = await response.json();*/
         let profile = {
             provider: "microsoft",
-            displayName: data.displayName,
-            id: data.objectId,
+            displayName: "data.displayName",
+            id: "data.objectId",
             name: {
-                familyName: data.surname,
-                givenName: data.givenName,
+                familyName: "data.surname",
+                givenName: "data.givenName",
             },
-            emails: [{ value: data["signInNames.emailAddress"] }],
-            _json: data,
+            emails: [{ value: 'data["signInNames.emailAddress"]' }],
+            id_token: extraParams.id_token
+            //_json: data,
         };
         return profile;
     }

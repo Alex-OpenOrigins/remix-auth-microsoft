@@ -21,16 +21,13 @@ export interface MicrosoftProfile extends OAuth2Profile {
     emails: [{
         value: string;
     }];
-    _json: {
-        objectId: string;
-        displayName: string;
-        surname: string;
-        givenName: string;
-        'signInNames.emailAddress': string;
-    };
+    id_token: string;
 }
 export interface MicrosoftExtraParams extends Record<string, string | number> {
+    expires_in: 3599;
     token_type: string;
+    scope: string;
+    id_token: string;
 }
 export declare class MicrosoftStrategy<User> extends OAuth2Strategy<User, MicrosoftProfile, MicrosoftExtraParams> {
     name: string;
@@ -45,5 +42,5 @@ export declare class MicrosoftStrategy<User> extends OAuth2Strategy<User, Micros
         refreshToken: string;
         extraParams: MicrosoftExtraParams;
     }>;
-    protected userProfile(accessToken: string): Promise<MicrosoftProfile>;
+    protected userProfile(accessToken: string, extraParams: MicrosoftExtraParams): Promise<MicrosoftProfile>;
 }

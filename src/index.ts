@@ -26,20 +26,21 @@ export interface MicrosoftProfile extends OAuth2Profile {
     givenName: string;
   };
   emails: [{ value: string }];
-  _json: {
+  id_token: string,
+  /*_json: {
     objectId: string;
     displayName: string;
     surname: string;
     givenName: string;
     'signInNames.emailAddress': string;
-  };
+  };*/
 }
 
 export interface MicrosoftExtraParams extends Record<string, string | number> {
-  //expires_in: 3599;
+  expires_in: 3599;
   token_type: string;
-  //scope: string;
-  //id_token: string;
+  scope: string;
+  id_token: string;
 }
 
 export class MicrosoftStrategy<User> extends OAuth2Strategy<
@@ -100,36 +101,40 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
 		extraParams: MicrosoftExtraParams;
 	}> {
 		
-    const { access_token, id_token, token_type } =
+    const { access_token, id_token, token_type, scope, expires_in } =
 			await response.json();
 
 		return {
 			accessToken: access_token,
 			refreshToken: '',
-			extraParams: { token_type },
+			extraParams: { token_type, id_token, scope, expires_in },
 		} as const;
 	}
 
-  protected async userProfile(accessToken: string): Promise<MicrosoftProfile> {
-    let response = await fetch(this.userInfoURL, {
+  protected async userProfile(accessToken: string, extraParams: MicrosoftExtraParams): Promise<MicrosoftProfile> {
+    /*let response = await fetch(this.userInfoURL, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    let data: MicrosoftProfile["_json"] = await response.json();
+    let data: MicrosoftProfile["_json"] = await response.json();*/
+
+    
 
     let profile: MicrosoftProfile = {
       provider: "microsoft",
-      displayName: data.displayName,
-      id: data.objectId,
+      displayName: "data.displayName",
+      id: "data.objectId",
       name: {
-        familyName: data.surname,
-        givenName: data.givenName,
+        familyName: "data.surname",
+        givenName: "data.givenName",
       },
-      emails: [{ value: data["signInNames.emailAddress"] }],
-      _json: data,
+      emails: [{ value: 'data["signInNames.emailAddress"]' }],
+      id_token: extraParams.id_token
+      //_json: data,
     };
 
     return profile;
+
   }
 }
