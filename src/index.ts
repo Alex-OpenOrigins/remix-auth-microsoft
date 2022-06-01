@@ -100,11 +100,11 @@ export class MicrosoftStrategy<User> extends OAuth2Strategy<
 		extraParams: MicrosoftExtraParams;
 	}> {
 		
-    const { id_token, token_type } =
+    const { access_token, id_token, token_type } =
 			await response.json();
 
 		return {
-			accessToken: id_token,
+			accessToken: access_token,
 			refreshToken: '',
 			extraParams: { token_type },
 		} as const;

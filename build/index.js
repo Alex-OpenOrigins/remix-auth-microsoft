@@ -25,9 +25,9 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         });
     }
     async getAccessToken(response) {
-        const { id_token, token_type } = await response.json();
+        const { access_token, id_token, token_type } = await response.json();
         return {
-            accessToken: id_token,
+            accessToken: access_token,
             refreshToken: '',
             extraParams: { token_type },
         };
