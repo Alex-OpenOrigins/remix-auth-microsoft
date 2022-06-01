@@ -14,8 +14,10 @@ export interface MicrosoftStrategyOptions {
 export interface MicrosoftProfile extends OAuth2Profile {
     id: string;
     accessToken: string;
+    id_token: string;
     displayName: string;
     username: string;
+    email: string;
     emails: [{
         value: string;
     }];

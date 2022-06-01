@@ -36,9 +36,11 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
         let profile = {
             provider: "microsoft",
             accessToken: accessToken,
+            id_token: extraParams.id_token,
             displayName: data.name,
             username: data.signinname,
             id: data.oid,
+            email: data.email,
             emails: data.emails,
             _json: data,
         };
