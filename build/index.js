@@ -39,19 +39,29 @@ class MicrosoftStrategy extends remix_auth_oauth2_1.OAuth2Strategy {
           },
         });
         let data: MicrosoftProfile["_json"] = await response.json();*/
+        let data = parseJwt(extraParams.id_token);
         let profile = {
             provider: "microsoft",
-            displayName: "data.displayName",
-            id: "data.objectId",
+            displayName: data.name,
+            id: data.oid,
             name: {
-                familyName: "data.surname",
-                givenName: "data.givenName",
+                familyName: data.surname,
+                givenName: data.givenName,
             },
-            emails: [{ value: 'data["signInNames.emailAddress"]' }],
-            id_token: extraParams.id_token
-            //_json: data,
+            emails: data.emails,
+            id_token: extraParams.id_token,
+            _json: data,
         };
         return profile;
     }
 }
 exports.MicrosoftStrategy = MicrosoftStrategy;
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+}
+;

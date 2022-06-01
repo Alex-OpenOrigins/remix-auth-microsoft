@@ -22,6 +22,7 @@ export interface MicrosoftProfile extends OAuth2Profile {
         value: string;
     }];
     id_token: string;
+    _json: any;
 }
 export interface MicrosoftExtraParams extends Record<string, string | number> {
     expires_in: 3599;
